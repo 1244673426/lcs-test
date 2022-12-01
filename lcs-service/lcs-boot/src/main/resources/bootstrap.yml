@@ -1,0 +1,36 @@
+server:
+  port: 8801
+spring:
+  application:
+    name: lcs-service
+  profiles:
+    active: dev
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.94.105.109:3306/lcs_service?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: root
+    password: jv5t*kbCf
+  redis:
+    database: 0
+    host: 47.94.105.109
+    port: 6379
+    password: Cuscri1109!
+    lettuce:
+      pool:
+        min-idle: 1
+knife4j:
+  password_token_url: 123456
+mybatis-plus:
+  type-enums-package: com.lcs.common.enums
+  configuration:
+    # 驼峰下划线转换
+    map-underscore-to-camel-case: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  global-config:
+    db-config:
+      logic-delete-field: deleteFlag # set delete_flag logicDelete
+      logic-delete-value: 1 # delete_flag
+      logic-not-delete-value: 0 # exist

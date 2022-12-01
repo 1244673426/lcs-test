@@ -1,0 +1,25 @@
+redis:
+  host: 47.94.105.109
+  port: 6379
+  password: Cuscri1109!
+
+mysql:
+  host: 47.94.105.109
+  port: 3306
+  username: root
+  password: jv5t*kbCf
+mq:
+  addr: 47.94.105.109:9876
+mongodb:
+  uri: mongodb://lms:Cuscri1109!@47.94.249.77:27017/lcs_service?authSource=lcs_service&maxIdleTimeMS=3000&keepAlive=true
+
+#ghost博客系统
+ghost:
+  #全部post列表
+  postsUrl: http://101.200.150.143:2368/ghost/api/v3/content/posts/?key=cff36ad95ae4e56f0e44ea0d35
+spring:
+  jackson:
+    deserialization:
+      use-big-decimal-for-floats: true
+    serialization:
+      write-bigdecimal-as-plain: true

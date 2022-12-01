@@ -1,0 +1,109 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${mysql.host}:${mysql.port}/lms_device?zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&autoReconnect=true
+    username: ${mysql.username}
+    password: ${mysql.password}
+  redis:
+    database: 0
+    host: ${redis.host}
+    port: ${redis.port}
+    password: ${redis.password}
+    lettuce:
+      pool:
+        min-idle: 1
+
+  cache:
+    # 缓存类型 redis、none(不使用缓存)
+    type: none
+    # 缓存时间(单位：ms)
+    redis:
+      time-to-live: 3600000
+      # 缓存null值，防止缓存穿透
+      cache-null-values: true
+      # 允许使用缓存前缀
+      use-key-prefix: true
+      # 缓存前缀，没有设置使用注解的缓存名称(value)作为前缀，和注解的key用双冒号::拼接组成完整缓存key
+      key-prefix: 'admin:'
+  cloud:
+    sentinel:
+      enabled: true
+      eager: true # 取消控制台懒加载，项目启动即连接Sentinel
+      transport:
+        client-ip: localhost
+        dashboard: localhost:8080
+      datasource:
+        # 限流规则，flow为key，随便定义
+        flow:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-flow-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: flow
+        # 降级规则
+        degrade:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: ${spring.application.name}-degrade-rules
+            groupId: SENTINEL_GROUP
+            data-type: json
+            rule-type: degrade
+  servlet:
+    multipart: #上传文件最大限制配制
+      maxFileSize: ${uploadFile.maxFileSize} #单个数据大小
+      maxRequestSize: ${uploadFile.maxRequestSize} #总数据大小
+
+mybatis-plus:
+  type-enums-package: com.lcs.common.enums
+  configuration:
+    # 驼峰下划线转换
+    map-underscore-to-camel-case: true
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+  global-config:
+    db-config:
+      logic-delete-field: deleteFlag # set delete_flag logicDelete
+      logic-delete-value: 1 # delete_flag
+      logic-not-delete-value: 0 # exist
+feign:
+  httpclient:
+    enabled: true
+  okhttp:
+    enabled: false
+  sentinel:  # 开启feign对sentinel的支持
+    enabled: false
+
+rocketmq:
+  name-server: ${mq.addr}
+  group: convert-group-indoor
+  subTopic: jt808-lms-indoor-dev
+  #生产者
+  producer:
+    #生产者组名，规定在一个应用里面必须唯一
+    group: group1
+    #消息发送的超时时间 默认3000ms
+    send-message-timeout: 3000
+    #消息达到4096字节的时候，消息就会被压缩。默认 4096
+    compress-message-body-threshold: 4096
+    #最大的消息限制，默认为128K
+    max-message-size: 4194304
+    #同步消息发送失败重试次数
+    retry-times-when-send-failed: 3
+    #在内部发送失败时是否重试其他代理，这个参数在有多个broker时才生效
+    retry-next-server: true
+    #异步消息发送失败重试的次数
+    retry-times-when-send-async-failed: 3
+
+
+#轨迹mock数据
+trackmock:
+  start: true
+  tag: indoor
+  minX: 13190000
+  maxX: 13199000
+  minY: 3680000
+  maxY: 3689000
+  step: 4

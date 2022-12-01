@@ -14,7 +14,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.lcs.lcsboot.pojo"})
 public class LcsBootApplication {
     public static void main(String[] args) {
         SpringApplication.run(LcsBootApplication.class, args);

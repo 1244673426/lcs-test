@@ -21,12 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class LcsDeviceServiceImpl extends ServiceImpl<LcsDeviceMapper, LcsDevice> implements LcsDeviceService {
 
-    @Autowired
-
     @Override
     public Result<LcsDevice> find(LcsLocationVO lcsLocationVO) {
         System.out.println(lcsLocationVO);
-
         return Result.success();
     }
 }
